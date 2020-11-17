@@ -27,17 +27,17 @@
 </template>
 
 <script>
-
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'ProductList',
-  data () {
-    return {
-      products: [
-        { id: 1, title: 'iPad Pro', price: 500.01 },
-        { id: 2, title: 'H&M T-Shirt White', price: 10.99 },
-        { id: 3, title: 'Charli XCX - Sucker CD', price: 19.99 }
-      ]
-    }
+  computed: {
+    ...mapState('product', ['products'])
+  },
+  mounted () {
+    this.getProducts()
+  },
+  methods: {
+    ...mapActions('product', ['getProducts'])
   }
 }
 </script>
