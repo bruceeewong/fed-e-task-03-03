@@ -11,8 +11,7 @@
       <el-table-column
         width="55">
         <template v-slot:header>
-          <el-checkbox size="mini">
-          </el-checkbox>
+          <el-checkbox v-model="checkedAll" size="mini" />
         </template>
         <!--
           @change="updateProductChecked"  默认参数：更新后的值
@@ -23,8 +22,8 @@
           <el-checkbox
             size="mini"
             :value="scope.row.isChecked"
-          >
-          </el-checkbox>
+            @change="updateProductChecked({prodId: scope.row.id, checked: $event})"
+          />
         </template>
       </el-table-column>
       <el-table-column
@@ -65,10 +64,18 @@ import { mapMutations, mapState } from 'vuex'
 export default {
   name: 'Cart',
   computed: {
-    ...mapState('cart', ['cartProducts'])
+    ...mapState('cart', ['cartProducts']),
+    checkedAll: {
+      get () { return this.cartProducts.every(item => item.isChecked) },
+      set (val) { this.updateAllProductChecked(val) }
+    }
   },
   methods: {
-    ...mapMutations('cart', ['deleteFromCart'])
+    ...mapMutations('cart', [
+      'deleteFromCart',
+      'updateAllProductChecked',
+      'updateProductChecked'
+    ])
   }
 }
 </script>

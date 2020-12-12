@@ -32,6 +32,15 @@ const mutations = {
     if (index !== -1) {
       state.cartProducts.splice(index, 1)
     }
+  },
+  updateAllProductChecked (state, isChecked) {
+    state.cartProducts.forEach(prod => { prod.isChecked = isChecked })
+  },
+  updateProductChecked (state, { prodId, checked }) {
+    console.log(prodId, checked)
+    const prod = state.cartProducts.find(item => item.id === prodId)
+    if (!prod) return
+    prod.isChecked = checked
   }
 }
 const actions = {}
