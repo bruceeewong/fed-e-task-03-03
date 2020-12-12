@@ -32,7 +32,9 @@
       </el-table-column>
       <el-table-column
         prop="price"
-        label="单价">
+        label="单价"
+        :formatter="(row, columm, cellValue) => currency(cellValue)"
+      >
       </el-table-column>
       <el-table-column
         prop="count"
@@ -47,7 +49,9 @@
       </el-table-column>
       <el-table-column
         prop="totalPrice"
-        label="小计">
+        label="小计"
+        :formatter="(row, columm, cellValue) => currency(cellValue)"
+        >
       </el-table-column>
       <el-table-column
         label="操作">
@@ -57,24 +61,28 @@
       </el-table-column>
     </el-table>
     <div>
-      <p>已选 <span>xxx</span> 件商品，总价：<span>xxx</span></p>
+      <p>已选 <span>{{checkedCount}}</span> 件商品，总价：<span>{{currency(checkedPrice)}}</span></p>
       <el-button type="danger">结算</el-button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
+import { currency } from '@/utils/formatter'
+
 export default {
   name: 'Cart',
   computed: {
     ...mapState('cart', ['cartProducts']),
+    ...mapGetters('cart', ['checkedCount', 'checkedPrice']),
     checkedAll: {
       get () { return this.cartProducts.every(item => item.isChecked) },
       set (val) { this.updateAllProductChecked(val) }
     }
   },
   methods: {
+    currency,
     ...mapMutations('cart', [
       'deleteFromCart',
       'updateAllProductChecked',

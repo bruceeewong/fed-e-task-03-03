@@ -13,7 +13,9 @@
       </el-table-column>
       <el-table-column
         prop="price"
-        label="价格">
+        label="价格"
+        :formatter="(r,c,cellValue) => currency(cellValue)"
+        >
       </el-table-column>
       <el-table-column
         prop="address"
@@ -28,6 +30,8 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
+import { currency } from '@/utils/formatter'
+
 export default {
   name: 'ProductList',
   computed: {
@@ -37,6 +41,7 @@ export default {
     this.getProducts()
   },
   methods: {
+    currency,
     ...mapActions('product', ['getProducts']),
     ...mapMutations('cart', ['addToCart'])
   }

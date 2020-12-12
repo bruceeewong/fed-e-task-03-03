@@ -7,6 +7,22 @@ const getters = {
   },
   totalPrice (state) {
     return state.cartProducts.reduce((sum, prod) => sum + prod.totalPrice, 0)
+  },
+  checkedCount (state) {
+    return state.cartProducts.reduce((sum, prod) => {
+      if (prod.isChecked) {
+        sum += prod.count
+      }
+      return sum
+    }, 0)
+  },
+  checkedPrice (state) {
+    return state.cartProducts.reduce((sum, prod) => {
+      if (prod.isChecked) {
+        sum += prod.totalPrice
+      }
+      return sum
+    }, 0)
   }
 }
 const mutations = {
@@ -16,7 +32,7 @@ const mutations = {
     const prod = state.cartProducts.find(item => item.id === product.id)
     if (prod) {
       prod.count++
-      prod.isChecked++
+      prod.isChecked = true
       prod.totalPrice = prod.count * prod.price
     } else {
       state.cartProducts.push({
@@ -46,6 +62,7 @@ const mutations = {
     if (!prod) return
     if (count) {
       prod.count = count
+      prod.totalPrice = prod.price * count
     }
   }
 }

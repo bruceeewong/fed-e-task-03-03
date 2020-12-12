@@ -5,7 +5,11 @@
   >
     <el-table :data="cartProducts" size="mini">
       <el-table-column property="title" width="130" label="商品"></el-table-column>
-      <el-table-column property="price" label="价格"></el-table-column>
+      <el-table-column
+        property="price"
+        label="价格"
+        :formatter="(r,c,cellValue) => currency(cellValue)"
+      ></el-table-column>
       <el-table-column property="count" width="50" label="数量"></el-table-column>
       <el-table-column label="操作">
         <template v-slot="scope">
@@ -14,7 +18,7 @@
       </el-table-column>
     </el-table>
     <div>
-      <p>共 {{totalCount}} 件商品 共计¥{{totalPrice}}</p>
+      <p>共 {{totalCount}} 件商品 共计{{currency(totalPrice)}}</p>
       <el-button size="mini" type="danger" @click="$router.push({ name: 'cart' })">去购物车</el-button>
     </div>
     <el-badge :value="totalCount" class="item" slot="reference">
@@ -25,6 +29,7 @@
 
 <script>
 import { mapGetters, mapMutations, mapState } from 'vuex'
+import { currency } from '@/utils/formatter'
 
 export default {
   name: 'PopCart',
@@ -33,6 +38,7 @@ export default {
     ...mapGetters('cart', ['totalCount', 'totalPrice'])
   },
   methods: {
+    currency,
     ...mapMutations('cart', ['deleteFromCart'])
   }
 }
