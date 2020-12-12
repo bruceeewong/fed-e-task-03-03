@@ -38,7 +38,11 @@
         prop="count"
         label="数量">
         <template v-slot="scope">
-          <el-input-number size="mini" :value="scope.row.count"></el-input-number>
+          <el-input-number
+            size="mini"
+            :value="scope.row.count"
+            @change="updateProduct({prodId: scope.row.id, count: $event})"
+          ></el-input-number>
         </template>
       </el-table-column>
       <el-table-column
@@ -74,7 +78,8 @@ export default {
     ...mapMutations('cart', [
       'deleteFromCart',
       'updateAllProductChecked',
-      'updateProductChecked'
+      'updateProductChecked',
+      'updateProduct'
     ])
   }
 }

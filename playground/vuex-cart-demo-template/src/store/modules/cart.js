@@ -37,10 +37,16 @@ const mutations = {
     state.cartProducts.forEach(prod => { prod.isChecked = isChecked })
   },
   updateProductChecked (state, { prodId, checked }) {
-    console.log(prodId, checked)
     const prod = state.cartProducts.find(item => item.id === prodId)
     if (!prod) return
     prod.isChecked = checked
+  },
+  updateProduct (state, { prodId, count }) {
+    const prod = state.cartProducts.find(item => item.id === prodId)
+    if (!prod) return
+    if (count) {
+      prod.count = count
+    }
   }
 }
 const actions = {}
