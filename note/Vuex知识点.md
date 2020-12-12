@@ -127,3 +127,84 @@ methods: {
 
 `strict`字段，深度检查state是否直接被变更，在开发环境开启，生产环境关闭。
 
+## VueX 插件使用
+
+使用订阅每次mutation且判断具体的type，在购物车状态的切面做保存的工作。
+
+```
+const interceptorPlugin = store => {
+  store.subscribe((mutation, state) => {
+​    // 记录每次变动后的数据
+​    if (mutation.type.startsWith('cart/')) {
+​      window.localStorage.setItem('cart-products', JSON.stringify(state.cart.cartProducts))
+​    }
+  })
+}
+```
+
+在store中注册插件
+
+```
+new Vuex.Store({
+  // ... 
+  plugins: [
+​    interceptorPlugin
+  ]
+})
+```
+
+即可实现每次变动数据，都能保存到localstorage中
+
+## 实现最小Vuex
+
+```js
+// myvuex.js
+let _Vue = null
+
+class Store {
+  constructor(options) {
+    const {
+      state = {},
+      getters = {},
+      mutations = {},
+      actions = {},
+    } = options
+    this.state = _Vue.observable(state)  // 响应式处理
+    this.getters = Object.create(null)
+    // 初始化getters
+    Object.keys(getters).forEach(key => {
+      Object.defineProperty(this.getters, key, {
+        get: () => getters[key](state)
+      })
+    })
+    this._mutations = mutations
+    this._actions = actions
+  }
+
+  commit (type, payload) {
+    this._mutations[type](this.state, payload) // state, payload
+  }
+
+  dispatch(type, payload) {
+    this._actions[type](this, payload) //context, payload
+  }
+}
+
+function install (Vue) {
+  _Vue = Vue
+  // 混入beforeCreate通过$options拿到实例对象,写入原型，共享store
+  _Vue.mixin({
+    beforeCreate() {
+      if (this.$options.store) {
+        _Vue.prototype.$store = this.$options.store  // 将Vue实例化时传入的store注入原型上
+      }
+    }
+  })
+}
+
+export default {
+  Store,
+  install
+}
+```
+
