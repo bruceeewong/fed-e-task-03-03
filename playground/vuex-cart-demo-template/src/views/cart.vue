@@ -38,8 +38,8 @@
       <el-table-column
         prop="count"
         label="数量">
-        <template>
-          <el-input-number size="mini"></el-input-number>
+        <template v-slot="scope">
+          <el-input-number size="mini" :value="scope.row.count"></el-input-number>
         </template>
       </el-table-column>
       <el-table-column
@@ -48,8 +48,8 @@
       </el-table-column>
       <el-table-column
         label="操作">
-        <template>
-          <el-button size="mini">删除</el-button>
+        <template v-slot="scope">
+          <el-button size="mini" @click="deleteFromCart(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -61,17 +61,14 @@
 </template>
 
 <script>
-
+import { mapMutations, mapState } from 'vuex'
 export default {
   name: 'Cart',
-  data () {
-    return {
-      cartProducts: [
-        { id: 1, title: 'iPad Pro', price: 500.01 },
-        { id: 2, title: 'H&M T-Shirt White', price: 10.99 },
-        { id: 3, title: 'Charli XCX - Sucker CD', price: 19.99 }
-      ]
-    }
+  computed: {
+    ...mapState('cart', ['cartProducts'])
+  },
+  methods: {
+    ...mapMutations('cart', ['deleteFromCart'])
   }
 }
 </script>
