@@ -1,0 +1,16 @@
+[
+  {
+    "name": "about",
+    "path": "/about",
+    "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/ssr/04-new-ssr/ssr/pages/about.vue",
+    "chunkName": "pages/about",
+    "_name": "_3ff28ad4"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/ssr/04-new-ssr/ssr/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_5faa6599"
+  }
+]

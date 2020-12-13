@@ -1,0 +1,15 @@
+{
+  "message": "世界",
+  "posts": [
+    {
+      "id": 1,
+      "title": "Lorem ipsum dolor sit amet",
+      "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti doloremque a exercitationem quis unde totam porro, sint nobis illo nesciunt asperiores labore maiores ex quisquam cum doloribus impedit! Doloremque, nulla."
+    },
+    {
+      "id": 2,
+      "title": "Lorem ipsum",
+      "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti doloremque a exercitationem quis unde totam porro, sint nobis illo nesciunt asperiores labore maiores ex quisquam cum doloribus impedit! Doloremque, nulla."
+    }
+  ]
+}
