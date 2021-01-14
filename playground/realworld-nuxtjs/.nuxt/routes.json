@@ -1,0 +1,15 @@
+[
+  {
+    "path": "/",
+    "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/layout/index.vue",
+    "children": [
+      {
+        "path": "",
+        "name": "home",
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/home/index.vue",
+        "_name": "_3487b47c"
+      }
+    ],
+    "_name": "_1584084d"
+  }
+]
