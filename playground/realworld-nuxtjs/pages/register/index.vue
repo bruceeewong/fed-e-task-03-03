@@ -17,13 +17,15 @@
               <input
                 class="form-control form-control-lg"
                 type="text"
+                required
                 placeholder="Your Name"
               />
             </fieldset>
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
-                type="text"
+                type="email"
+                required
                 placeholder="Email"
               />
             </fieldset>
@@ -31,6 +33,7 @@
               <input
                 class="form-control form-control-lg"
                 type="password"
+                required
                 placeholder="Password"
               />
             </fieldset>
