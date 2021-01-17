@@ -2,24 +2,36 @@
   <div>
     <nav class="navbar navbar-light">
       <div class="container">
-        <a class="navbar-brand" href="index.html">conduit</a>
+        <nuxt-link class="navbar-brand" to="/">conduit</nuxt-link>
         <ul class="nav navbar-nav pull-xs-right">
           <li class="nav-item">
             <!-- Add "active" class when you're on that page" -->
-            <a class="nav-link active" href="">Home</a>
+            <nuxt-link class="nav-link" to="/" exact>Home</nuxt-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
+            <nuxt-link class="nav-link" to="/editor">
               <i class="ion-compose"></i>&nbsp;New Post
-            </a>
+            </nuxt-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
+            <nuxt-link class="nav-link" to="/settings">
               <i class="ion-gear-a"></i>&nbsp;Settings
-            </a>
+            </nuxt-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Sign up</a>
+            <nuxt-link class="nav-link" to="/login">Sign in</nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link class="nav-link" to="/register">Sign up</nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link class="nav-link active" to="/profile/123">
+              <img
+                class="user-pic"
+                src="https://avatars0.githubusercontent.com/u/17715132?s=60&amp;v=4"
+              />
+              bruski
+            </nuxt-link>
           </li>
         </ul>
       </div>
@@ -29,7 +41,7 @@
 
     <footer>
       <div class="container">
-        <a href="/" class="logo-font">conduit</a>
+        <nuxt-link to="/" class="logo-font">conduit</nuxt-link>
         <span class="attribution">
           An interactive learning project from
           <a href="https://thinkster.io">Thinkster</a>.Code &amp; design

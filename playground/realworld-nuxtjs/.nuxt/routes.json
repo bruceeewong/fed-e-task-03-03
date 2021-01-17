@@ -6,7 +6,6 @@
       {
         "path": "",
         "name": "home",
-        "exact": true,
         "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/home",
         "_name": "_44eb1367"
       },

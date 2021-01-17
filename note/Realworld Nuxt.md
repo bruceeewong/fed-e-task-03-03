@@ -171,3 +171,7 @@ module.exports = {
 ### 导入设置、文章页
 
 代码详情见：https://github.com/gothinkster/realworld-starter-kit/blob/master/FRONTEND_INSTRUCTIONS.md#loginregister
+
+### 调整所有的超链接标签
+
+改所有的站内跳转的`a`标签为`nuxt-link`标签，切为nuxt路由。
