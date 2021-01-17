@@ -4,7 +4,9 @@
 
 使用 Nuxt.js 实现 realworld-starter 项目
 
-## Step 1 -  搭建NuxtJS框架
+## Step 1 -  搭建框架、创建模板
+
+### 搭建NuxtJS框架
 
 搭建NuxtJS框架，写基础html模板 引入 ionicon 等样式依赖
 
@@ -34,7 +36,7 @@
 
 ```
 
-## Step 2 - 编写 layout 骨架&改写默认路由表
+### 编写 layout 骨架&改写默认路由表
 
 ```vue
 <template>
@@ -122,3 +124,50 @@ module.exports = {
 ```
 
 这样就可以自定义路由与组件了。
+
+### 登录/注册模板
+
+包含表单、登录/注册跳转link，错误信息提示。`a`标签改造为`nuxt-link`标签。
+
+```html
+  <div class="auth-page">
+    <div class="container page">
+      <div class="row">
+        <div class="col-md-6 offset-md-3 col-xs-12">
+          <h1 class="text-xs-center">Sign in</h1>
+          <p class="text-xs-center">
+            <nuxt-link to="/register">Need an account?</nuxt-link>
+          </p>
+
+          <ul class="error-messages">
+            <li>That email is already taken</li>
+          </ul>
+
+          <form>
+            <fieldset class="form-group">
+              <input
+                class="form-control form-control-lg"
+                type="text"
+                placeholder="Email"
+              />
+            </fieldset>
+            <fieldset class="form-group">
+              <input
+                class="form-control form-control-lg"
+                type="password"
+                placeholder="Password"
+              />
+            </fieldset>
+            <button class="btn btn-lg btn-primary pull-xs-right">
+              Sign in
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+```
+
+### 导入设置、文章页
+
+代码详情见：https://github.com/gothinkster/realworld-starter-kit/blob/master/FRONTEND_INSTRUCTIONS.md#loginregister

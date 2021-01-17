@@ -4,8 +4,14 @@ import { normalizeURL, decode } from '@nuxt/ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _1584084d = () => interopDefault(import('../pages/layout/index.vue' /* webpackChunkName: "" */))
-const _3487b47c = () => interopDefault(import('../pages/home/index.vue' /* webpackChunkName: "" */))
+const _86f0d09c = () => interopDefault(import('../pages/layout' /* webpackChunkName: "" */))
+const _44eb1367 = () => interopDefault(import('../pages/home' /* webpackChunkName: "" */))
+const _58afa1e1 = () => interopDefault(import('../pages/login' /* webpackChunkName: "" */))
+const _46586daa = () => interopDefault(import('../pages/register' /* webpackChunkName: "" */))
+const _771503be = () => interopDefault(import('../pages/profile' /* webpackChunkName: "" */))
+const _5b7a56ab = () => interopDefault(import('../pages/settings' /* webpackChunkName: "" */))
+const _9e8e8416 = () => interopDefault(import('../pages/editor' /* webpackChunkName: "" */))
+const _a9807d24 = () => interopDefault(import('../pages/article' /* webpackChunkName: "" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -25,11 +31,35 @@ export const routerOptions = {
 
   routes: [{
     path: "/",
-    component: _1584084d,
+    component: _86f0d09c,
     children: [{
       path: "",
-      component: _3487b47c,
+      component: _44eb1367,
       name: "home"
+    }, {
+      path: "/login",
+      component: _58afa1e1,
+      name: "login"
+    }, {
+      path: "/register",
+      component: _46586daa,
+      name: "register"
+    }, {
+      path: "/profile/:username",
+      component: _771503be,
+      name: "profile"
+    }, {
+      path: "/settings",
+      component: _5b7a56ab,
+      name: "settings"
+    }, {
+      path: "/editor",
+      component: _9e8e8416,
+      name: "editor"
+    }, {
+      path: "/article/:slug",
+      component: _a9807d24,
+      name: "article"
     }]
   }],
 

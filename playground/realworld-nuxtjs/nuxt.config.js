@@ -11,12 +11,43 @@ module.exports = {
         ...[
           {
             path: "/",
-            component: resolve(__dirname, "pages/layout/index.vue"),
+            component: resolve(__dirname, "pages/layout/"),
             children: [
               {
                 path: "",
                 name: "home",
-                component: resolve(__dirname, "pages/home/index.vue"),
+                exact: true,
+                component: resolve(__dirname, "pages/home/"),
+              },
+              {
+                path: "/login",
+                name: "login",
+                component: resolve(__dirname, "pages/login/"),
+              },
+              {
+                path: "/register",
+                name: "register",
+                component: resolve(__dirname, "pages/register/"),
+              },
+              {
+                path: "/profile/:username",
+                name: "profile",
+                component: resolve(__dirname, "pages/profile/"),
+              },
+              {
+                path: "/settings",
+                name: "settings",
+                component: resolve(__dirname, "pages/settings/"),
+              },
+              {
+                path: "/editor",
+                name: "editor",
+                component: resolve(__dirname, "pages/editor/"),
+              },
+              {
+                path: "/article/:slug",
+                name: "article",
+                component: resolve(__dirname, "pages/article/"),
               },
             ],
           },

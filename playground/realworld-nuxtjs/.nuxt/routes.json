@@ -1,15 +1,52 @@
 [
   {
     "path": "/",
-    "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/layout/index.vue",
+    "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/layout",
     "children": [
       {
         "path": "",
         "name": "home",
-        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/home/index.vue",
-        "_name": "_3487b47c"
+        "exact": true,
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/home",
+        "_name": "_44eb1367"
+      },
+      {
+        "path": "/login",
+        "name": "login",
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/login",
+        "_name": "_58afa1e1"
+      },
+      {
+        "path": "/register",
+        "name": "register",
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/register",
+        "_name": "_46586daa"
+      },
+      {
+        "path": "/profile/:username",
+        "name": "profile",
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/profile",
+        "_name": "_771503be"
+      },
+      {
+        "path": "/settings",
+        "name": "settings",
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/settings",
+        "_name": "_5b7a56ab"
+      },
+      {
+        "path": "/editor",
+        "name": "editor",
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/editor",
+        "_name": "_9e8e8416"
+      },
+      {
+        "path": "/article/:slug",
+        "name": "article",
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/article",
+        "_name": "_a9807d24"
       }
     ],
-    "_name": "_1584084d"
+    "_name": "_86f0d09c"
   }
 ]
