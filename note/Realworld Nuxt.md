@@ -175,3 +175,38 @@ module.exports = {
 ### 调整所有的超链接标签
 
 改所有的站内跳转的`a`标签为`nuxt-link`标签，切为nuxt路由。
+
+## 同构渲染的用户登录态处理
+
+前后端共享方案，官网示例：跨域身份验证（JWT）
+
+服务端需要调用 Vuex 的全局模块的 `nuxtServerInit` action（通过中间件的形式），通过判断 client 端的请求头是否有 cookie `auth`，来将登录态存储到 vuex 中。
+
+### 第一步，client端将接口的数据存到vuex中
+
+请求登录接口后，client 端需要把用户数据存到 vuex 中。此时如果刷新页面，状态就会丢失，所以我们需要做更多处理。
+
+> 这里的vuex写法与常规vue项目不同，无需导入vuex，直接按需export state / mutation ...由nuxt服务端调用; state要写成函数形式， 如
+>
+> ```
+> export const state = () => {
+>   return {
+>     user: null,
+>   };
+> };
+> ```
+
+### 第二步，client端还需将用户token存储在cookie中
+
+此处需区分环境（client）端，我们可以使用 `process.client` / `process.server` 来区分，并决定是否加载cookie的库。
+
+```js
+const Cookie = process.client ? require("js-cookie") : undefined;
+```
+
+### 第三步，server端借助 vuex 的 action: `nuxtServerInit`  方法初始化登录态
+
+借助请求头的cookie，初始化项目的vuex状态。
+
+
+
