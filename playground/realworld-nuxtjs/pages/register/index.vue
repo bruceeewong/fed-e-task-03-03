@@ -9,12 +9,13 @@
           </p>
 
           <ul class="error-messages">
-            <li>That email is already taken</li>
+            <li v-for="errMsg in errors" :key="errMsg">{{ errMsg }}</li>
           </ul>
 
-          <form>
+          <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
+                v-model="user.username"
                 class="form-control form-control-lg"
                 type="text"
                 required
@@ -23,6 +24,7 @@
             </fieldset>
             <fieldset class="form-group">
               <input
+                v-model="user.email"
                 class="form-control form-control-lg"
                 type="email"
                 required
@@ -31,13 +33,15 @@
             </fieldset>
             <fieldset class="form-group">
               <input
+                v-model="user.password"
                 class="form-control form-control-lg"
                 type="password"
                 required
                 placeholder="Password"
+                minlength="8"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button type="submit" class="btn btn-lg btn-primary pull-xs-right">
               Sign up
             </button>
           </form>
@@ -48,7 +52,36 @@
 </template>
 
 <script>
-export default {};
+import { register } from "@/api/user";
+import ErrorHandler from "@/utils/error-handler";
+
+export default {
+  name: "register",
+  data() {
+    return {
+      user: {
+        username: "",
+        email: "",
+        password: "",
+      },
+      errors: [],
+    };
+  },
+  methods: {
+    async onSubmit() {
+      try {
+        const data = await register({ user: this.user });
+        // TODO: 保存登录态
+        console.log(data);
+        // 跳转首页
+        // this.$router.push("/");
+      } catch (e) {
+        if (!e.response) throw e;
+        this.errors = ErrorHandler.handleAuthError(e.response.data.errors);
+      }
+    },
+  },
+};
 </script>
 
 <style>

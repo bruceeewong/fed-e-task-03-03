@@ -9,7 +9,7 @@
           </p>
 
           <ul class="error-messages">
-            <li>That email is already taken</li>
+            <li v-for="errMsg in errors" :key="errMsg">{{ errMsg }}</li>
           </ul>
 
           <form @submit.prevent="onSubmit">
@@ -43,6 +43,7 @@
 
 <script>
 import { login } from "@/api/user";
+import ErrorHandler from "@/utils/error-handler";
 
 export default {
   name: "login",
@@ -52,17 +53,21 @@ export default {
         email: "",
         password: "",
       },
+      errors: [],
     };
   },
   methods: {
     async onSubmit() {
-      const data = await login({ user: this.user });
-
-      // TODO: 保存登录态
-      console.log(data);
-
-      // 跳转首页
-      this.$router.push("/");
+      try {
+        const data = await login({ user: this.user });
+        // TODO: 保存登录态
+        console.log(data);
+        // 跳转首页
+        this.$router.push("/");
+      } catch (e) {
+        if (!e.response) throw e;
+        this.errors = ErrorHandler.handleAuthError(e.response.data.errors);
+      }
     },
   },
 };
