@@ -56,8 +56,8 @@
 <script>
 export default {
   name: "settings",
+  middleware: "authenticated",
 };
 </script>
 
-<style>
-</style>
+<style></style>

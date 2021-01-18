@@ -48,6 +48,7 @@ const Cookie = process.client ? require("js-cookie") : undefined;
 
 export default {
   name: "login",
+  middleware: "notAuthenticated",
   data() {
     return {
       user: {
@@ -78,5 +79,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

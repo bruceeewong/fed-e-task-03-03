@@ -208,5 +208,56 @@ const Cookie = process.client ? require("js-cookie") : undefined;
 
 借助请求头的cookie，初始化项目的vuex状态。
 
+## 处理页面访问权限
+
+使用`路由中间件`来解决
+
+这里有两种场景：
+
+1. 页面未登录不允许访问（个人主页...）
+2. 页面已登录不允许访问（登录页...)
+
+在根目录创建 `middleware` 中间件目录，导出鉴权中间件
+
+```js
+// 验证是否登录的中间件
+export default function({ store, redirect }) {
+  if (!store.state.user) {
+    return redirect("/login");
+  }
+}
+```
+
+```js
+// 已登录，跳转首页
+export default function({ store, redirect }) {
+  if (store.state.user) {
+    return redirect("/");
+  }
+}
+```
+
+然后在页面组件的`middleware`参数，传入定义的中间件文件名，nuxt会自动检索根目录下`middleware`路径下的中间件（约定式），并在路由匹配到之后，组件加载前执行中间件。
+
+```vue
+// profile.vue
+<script>
+export default {
+	name: 'profile',
+	middleware: 'authenticated'
+}
+</script>
+```
+
+```vue
+// login.vue
+<script>
+export default {
+	name: 'login',
+	middleware: 'notAuthenticated'
+}
+</script>
+```
+
 
 

@@ -51,8 +51,9 @@
 <script>
 export default {
   name: "editor",
+  // 路由匹配组件前先执行中间件
+  middleware: "authenticated",
 };
 </script>
 
-<style>
-</style>
+<style></style>

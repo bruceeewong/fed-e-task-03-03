@@ -35,7 +35,7 @@
 
           <div class="article-preview">
             <div class="article-meta">
-              <a href=""><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
+              <a href=""><img src="http://i.imgur.com/Qr71crq.jpg"/></a>
               <div class="info">
                 <a href="" class="author">Eric Simons</a>
                 <span class="date">January 20th</span>
@@ -53,7 +53,7 @@
 
           <div class="article-preview">
             <div class="article-meta">
-              <a href=""><img src="http://i.imgur.com/N4VcUeJ.jpg" /></a>
+              <a href=""><img src="http://i.imgur.com/N4VcUeJ.jpg"/></a>
               <div class="info">
                 <a href="" class="author">Albert Pai</a>
                 <span class="date">January 20th</span>
@@ -84,8 +84,8 @@
 <script>
 export default {
   name: "UserProfile",
+  middleware: "authenticated",
 };
 </script>
 
-<style>
-</style>
+<style></style>
