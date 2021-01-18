@@ -259,5 +259,82 @@ export default {
 </script>
 ```
 
+## 获取文章列表
 
+`/api/articles`
+
+考虑到首屏渲染，需要在Home页面的 asyncData 属性发送请求获取数据。
+
+```js
+import { getArticles } from "@/api/article";
+
+export default {
+  name: "HomeIndex",
+  async asyncData() {
+    const { data } = await getArticles();
+    return {
+      articles: data.articles,
+      articlesCount: data.articlesCount,
+    };
+  },
+};
+```
+
+## 文章列表数据绑定视图
+
+还是一样的思路，a标签替换为 nuxt-link，通过 for 循环和文本插值生成批量数据
+
+```vue
+<div
+  v-for="article in articles"
+  :key="article.slug"
+  class="article-preview"
+>
+  <div class="article-meta">
+    <nuxt-link
+      :to="{
+        name: 'profile',
+        params: {
+          username: article.author.username,
+        },
+      }"
+    >
+      <img :src="article.author.image"
+    /></nuxt-link>
+    <nuxt-link
+      :to="{
+        name: 'profile',
+        params: {
+          username: article.author.username,
+        },
+      }"
+    >
+      <div class="info">
+        <a href="" class="author"> {{ article.author.username }}</a>
+        <span class="date">{{ article.createdAt }}</span>
+      </div>
+    </nuxt-link>
+
+    <button
+      class="btn btn-outline-primary btn-sm pull-xs-right"
+      :class="{ active: article.favorited }"
+    >
+      <i class="ion-heart"></i> {{ article.favoritesCount }}
+    </button>
+  </div>
+  <nuxt-link
+    :to="{
+      name: 'article',
+      params: {
+        slug: article.slug,
+      },
+    }"
+    class="preview-link"
+  >
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.description }}</p>
+    <span>Read more...</span>
+  </nuxt-link>
+</div>
+```
 
