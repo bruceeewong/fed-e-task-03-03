@@ -72,6 +72,30 @@
               <span>Read more...</span>
             </nuxt-link>
           </div>
+
+          <nav>
+            <ul class="pagination">
+              <li
+                v-for="pageIndex in totalPage"
+                :key="pageIndex"
+                class="page-item"
+                :class="{
+                  active: page === pageIndex,
+                }"
+              >
+                <nuxt-link
+                  class="page-link"
+                  :to="{
+                    name: 'home',
+                    query: {
+                      page: pageIndex,
+                    },
+                  }"
+                  >{{ pageIndex }}</nuxt-link
+                >
+              </li>
+            </ul>
+          </nav>
         </div>
 
         <div class="col-md-3">
@@ -100,13 +124,27 @@ import { getArticles } from "@/api/article";
 
 export default {
   name: "HomeIndex",
-  async asyncData() {
-    const { data } = await getArticles();
+  async asyncData({ query }) {
+    const page = Number.parseInt(query.page || 1);
+    const limit = 10;
+
+    const { data } = await getArticles({
+      limit,
+      offset: (page - 1) * limit,
+    });
     return {
       articles: data.articles,
       articlesCount: data.articlesCount,
+      limit,
+      page,
     };
   },
+  computed: {
+    totalPage() {
+      return Math.ceil(this.articlesCount / this.limit);
+    },
+  },
+  watchQuery: ["page"],
 };
 </script>
 

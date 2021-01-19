@@ -338,3 +338,72 @@ export default {
 </div>
 ```
 
+## 处理分页逻辑
+
+通过路径查询参数`?page=1`传递分页页码，再通过指定的 `limit` 分页大小算出 `offset`, 在页面初始化时，计算好传给后端：
+
+```js
+async asyncData({ query }) {
+    const page = Number.parseInt(query.page || 1);
+    const limit = 10;
+
+    const { data } = await getArticles({
+      limit,
+      offset: (page - 1) * limit,
+    });
+    return {
+      articles: data.articles,
+      articlesCount: data.articlesCount,
+      limit,
+      page,
+    };
+  }
+```
+
+分页总数通过公式算出，存到computed中
+
+```js
+{  
+  computed: {
+    totalPage() {
+      return Math.ceil(this.articlesCount / this.limit);
+    },
+  },
+}
+```
+
+给`pagination`的视图节点绑上数据
+
+```vue
+<nav>
+  <ul class="pagination">
+    <li
+      v-for="pageIndex in totalPage"
+      :key="pageIndex"
+      class="page-item"
+      :class="{
+        active: page === pageIndex,
+      }"
+    >
+      <nuxt-link
+        class="page-link"
+        :to="{
+          name: 'home',
+          query: {
+            page: pageIndex,
+          },
+        }"
+        >{{ pageIndex }}</nuxt-link
+      >
+    </li>
+  </ul>
+</nav>
+```
+
+注意此时的跳转，并不会刷新页面，因为 page 并不是一个响应式数据。通过 Nuxt 提供的 `watchQuery` 属性，监听查询参数，如果设置为 true，则全部监听，指定数组则为按需监听。
+
+```js
+watchQuery: ['page']
+```
+
+此时热更新不生效，刷新页面即可。
