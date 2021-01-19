@@ -407,3 +407,31 @@ watchQuery: ['page']
 ```
 
 此时热更新不生效，刷新页面即可。
+
+## 使用并发请求替代串行请求
+
+如果首屏请求相互无依赖，可以使用`Promise.all`将异步任务包裹，异步执行
+
+串行请求（优化前），请求时间平均为2.1s
+
+```js
+const { data } = await getArticles({
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    const { data: tagData } = await getTags();
+```
+
+使用Promise.all并行请求（优化后），请求时间平均为1.3s
+
+```js
+const [articleRes, tagRes] = await Promise.all([
+      getArticles({
+        limit,
+        offset: (page - 1) * limit,
+      }),
+      getTags(),
+    ]);
+```
+

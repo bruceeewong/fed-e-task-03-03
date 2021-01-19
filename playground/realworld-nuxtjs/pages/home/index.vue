@@ -103,14 +103,13 @@
             <p>Popular Tags</p>
 
             <div class="tag-list">
-              <a href="" class="tag-pill tag-default">programming</a>
-              <a href="" class="tag-pill tag-default">javascript</a>
-              <a href="" class="tag-pill tag-default">emberjs</a>
-              <a href="" class="tag-pill tag-default">angularjs</a>
-              <a href="" class="tag-pill tag-default">react</a>
-              <a href="" class="tag-pill tag-default">mean</a>
-              <a href="" class="tag-pill tag-default">node</a>
-              <a href="" class="tag-pill tag-default">rails</a>
+              <nuxt-link
+                v-for="tag in tags"
+                :key="tag"
+                to=""
+                class="tag-pill tag-default"
+                >{{ tag }}</nuxt-link
+              >
             </div>
           </div>
         </div>
@@ -121,6 +120,7 @@
 
 <script>
 import { getArticles } from "@/api/article";
+import { getTags } from "@/api/tag";
 
 export default {
   name: "HomeIndex",
@@ -128,13 +128,21 @@ export default {
     const page = Number.parseInt(query.page || 1);
     const limit = 10;
 
-    const { data } = await getArticles({
-      limit,
-      offset: (page - 1) * limit,
-    });
+    const [articleRes, tagRes] = await Promise.all([
+      getArticles({
+        limit,
+        offset: (page - 1) * limit,
+      }),
+      getTags(),
+    ]);
+
+    const { articles, articlesCount } = articleRes.data;
+    const { tags } = tagRes.data;
+
     return {
-      articles: data.articles,
-      articlesCount: data.articlesCount,
+      articleRes,
+      articlesCount,
+      tags,
       limit,
       page,
     };
