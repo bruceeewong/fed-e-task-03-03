@@ -12,11 +12,24 @@
         <div class="col-md-9">
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
-              <li class="nav-item">
+              <li v-if="user !== null" class="nav-item">
                 <a class="nav-link disabled" href="">Your Feed</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" href="">Global Feed</a>
+              </li>
+              <li v-if="tag" class="nav-item">
+                <nuxt-link
+                  class="nav-link"
+                  :to="{
+                    name: 'home',
+                    query: {
+                      tag: tag,
+                    },
+                  }"
+                >
+                  #{{ tag }}
+                </nuxt-link>
               </li>
             </ul>
           </div>
@@ -88,6 +101,7 @@
                   :to="{
                     name: 'home',
                     query: {
+                      tag: tag,
                       page: pageIndex,
                     },
                   }"
@@ -106,7 +120,12 @@
               <nuxt-link
                 v-for="tag in tags"
                 :key="tag"
-                to=""
+                :to="{
+                  name: 'home',
+                  query: {
+                    tag: tag,
+                  },
+                }"
                 class="tag-pill tag-default"
                 >{{ tag }}</nuxt-link
               >
@@ -121,17 +140,20 @@
 <script>
 import { getArticles } from "@/api/article";
 import { getTags } from "@/api/tag";
+import { mapState } from "vuex";
 
 export default {
   name: "HomeIndex",
   async asyncData({ query }) {
     const page = Number.parseInt(query.page || 1);
     const limit = 10;
+    const { tag } = query;
 
     const [articleRes, tagRes] = await Promise.all([
       getArticles({
         limit,
         offset: (page - 1) * limit,
+        tag: tag,
       }),
       getTags(),
     ]);
@@ -140,19 +162,21 @@ export default {
     const { tags } = tagRes.data;
 
     return {
-      articleRes,
+      articles,
       articlesCount,
       tags,
       limit,
       page,
+      tag,
     };
   },
   computed: {
+    ...mapState(["user"]),
     totalPage() {
       return Math.ceil(this.articlesCount / this.limit);
     },
   },
-  watchQuery: ["page"],
+  watchQuery: ["page", "tag"],
 };
 </script>
 
