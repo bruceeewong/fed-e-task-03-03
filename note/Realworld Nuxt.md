@@ -4,7 +4,7 @@
 
 使用 Nuxt.js 实现 realworld-starter 项目
 
-## Step 1 -  搭建框架、创建模板
+## 搭建框架、创建模板
 
 ### 搭建NuxtJS框架
 
@@ -434,4 +434,27 @@ const [articleRes, tagRes] = await Promise.all([
       getTags(),
     ]);
 ```
+
+## 首页
+
+### 标签查询
+
+在参数路由添加 `tag`，注意分页时也要带上`tag`
+
+### 导航栏
+
+分析：
+
+- 未登录时，展示 `Global Feed`，`Your Feed`禁用。登录后，`Your Feed`可选。
+
+- 点击标签，新增一个Tab，展示该标签下的动态;离开后，tab消失。
+
+### Tab高亮实现
+
+Tab的高亮需要匹配路由查询参数`tab`，需要做四件事情：
+
+1. 在asyncData中获取query.tab，并设置首页默认值，返回data: `tab`
+2. 在watchQuery中设置监听: `watchQuery: ['tab']`
+3. 在视图模板中，设置对应`nuxt-link`的动态class: `active`与`tab`关联
+4. 设置`nuxt-link`的`exact`属性为true,精确匹配路由才能避免重复高亮。
 
