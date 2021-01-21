@@ -458,3 +458,72 @@ Tab的高亮需要匹配路由查询参数`tab`，需要做四件事情：
 3. 在视图模板中，设置对应`nuxt-link`的动态class: `active`与`tab`关联
 4. 设置`nuxt-link`的`exact`属性为true,精确匹配路由才能避免重复高亮。
 
+## Axios
+
+### 统一设置header token
+
+使用axios的请求拦截器`interceptors.request`
+
+```js
+// 请求拦截器
+request.interceptors.request.use(
+  (config) => {
+    // 请求发送前执行
+    config.headers.Authorization = `Token your_token`;
+    return config;
+  },
+  (error) => {
+    // 请求未发出
+    return Promise.reject(error);
+  }
+);
+```
+
+那么如何获取到token呢？
+
+我们的用户信息存储在`vuex.store`中，且是在`vue`app运行时才会发请求获取用户数据，如果直接导入`store`那么拿到的`user`信息必然为`null`。是不是没有办法了呢，其实[Nuxt的`插件`机制](https://nuxtjs.org/docs/2.x/directory-structure/plugins)可以帮忙。
+
+> The `plugins` directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to `plugins` in `nuxt.config.js`.
+
+我们将注册一个自定插件，并借助插件的上下文参数，在vue客户端代码运行时，拿到用户信息。
+
+在根目录创建`plugins/`目录，添加`request.js`文件，写入：
+
+```js
+import axios from "axios";
+
+export const request = axios.create({
+  baseURL: "https://conduit.productionready.io",
+});
+
+// 插件导出函数必须作为default成员。
+// 借助插件机制，获取上下文（含app, store, req, param ...）
+export default ({ store }) => {
+  // 请求拦截器
+  request.interceptors.request.use(
+    (config) => {
+      // 请求发送前执行
+      const { user } = store.state;
+      if (user && user.token) {
+        config.headers.Authorization = `Token ${user.token}`;  // 统一设置token
+      }
+      return config;
+    },
+    (error) => {
+      // 请求未发出
+      return Promise.reject(error);
+    }
+  );
+};
+```
+
+然后在`nuxt.config.js`配置文件，注册插件：
+
+```js
+module.exports = {
+  // ...
+  plugins: ["~/plugins/request.js"],
+};
+```
+
+重启服务，即可享受统一的token设置（如果有的话）

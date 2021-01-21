@@ -75,8 +75,8 @@
                   },
                 }"
               >
-                <img :src="article.author.image"
-              /></nuxt-link>
+                <img :src="article.author.image" />
+              </nuxt-link>
               <nuxt-link
                 :to="{
                   name: 'profile',
@@ -90,7 +90,6 @@
                   <span class="date">{{ article.createdAt }}</span>
                 </div>
               </nuxt-link>
-
               <button
                 class="btn btn-outline-primary btn-sm pull-xs-right"
                 :class="{ active: article.favorited }"
@@ -98,6 +97,7 @@
                 <i class="ion-heart"></i> {{ article.favoritesCount }}
               </button>
             </div>
+
             <nuxt-link
               :to="{
                 name: 'article',
