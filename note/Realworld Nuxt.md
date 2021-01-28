@@ -565,3 +565,69 @@ module.exports = {
 <span class="date">{{article.createdAt | date("MMM DD,YYYY")}}</span>
 ```
 
+## 点赞逻辑
+
+接入点赞、取消点赞的接口
+
+```js
+export const favoriteArticle = (slug) => {
+  return request({
+    url: `/api/articles/${slug}/favorite`,
+    method: "POST",
+  });
+};
+
+export const unfavoriteArticle = (slug) => {
+  return request({
+    url: `/api/articles/${slug}/favorite`,
+    method: "DELETE",
+  });
+};
+```
+
+点赞的途中，禁用该按钮的点击态，需要给每条数据加一个disabled状态。
+
+```js
+return {
+	articles: articles.map((item) => ({
+        ...item,
+        favoriteDisabled: false,  // 给源数据增加状态
+      }));
+}
+```
+
+在发出请求前置为`true`，发出请求后置为`false`，防止因网络原因让用户点击多次。
+
+```js
+async onFavorite(article) {
+      article.favoriteDisabled = true; // 点赞禁用态
+      if (article.favorited) {
+        await unfavoriteArticle(article.slug);
+        article.favorited = false;
+        article.favoritesCount -= 1;
+      } else {
+        await favoriteArticle(article.slug);
+        article.favorited = true;
+        article.favoritesCount += 1;
+      }
+      article.favoriteDisabled = false; // 解除点赞禁用态
+    },
+```
+
+在视图上绑定禁用状态
+
+```vue
+<button
+  class="btn btn-outline-primary btn-sm pull-xs-right"
+  :class="{ active: article.favorited }"
+  :disabled="article.favoriteDisabled"
+  @click="onFavorite(article)"
+>
+  <i class="ion-heart"></i> {{ article.favoritesCount }}
+</button>
+```
+
+则完成点赞的功能。
+
+
+

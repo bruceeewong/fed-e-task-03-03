@@ -95,6 +95,8 @@
               <button
                 class="btn btn-outline-primary btn-sm pull-xs-right"
                 :class="{ active: article.favorited }"
+                :disabled="article.favoriteDisabled"
+                @click="onFavorite(article)"
               >
                 <i class="ion-heart"></i> {{ article.favoritesCount }}
               </button>
@@ -169,7 +171,12 @@
 </template>
 
 <script>
-import { getArticles, getFeedArticles } from "@/api/article";
+import {
+  getArticles,
+  getFeedArticles,
+  favoriteArticle,
+  unfavoriteArticle,
+} from "@/api/article";
 import { getTags } from "@/api/tag";
 import { mapState } from "vuex";
 
@@ -195,8 +202,12 @@ export default {
     const { articles, articlesCount } = articleRes.data;
     const { tags } = tagRes.data;
 
+    // 给每个article添加禁用的状态
     return {
-      articles,
+      articles: articles.map((item) => ({
+        ...item,
+        favoriteDisabled: false,
+      })),
       articlesCount,
       tags,
       limit,
@@ -212,6 +223,21 @@ export default {
     },
   },
   watchQuery: ["page", "tag", "tab"],
+  methods: {
+    async onFavorite(article) {
+      article.favoriteDisabled = true; // 点赞禁用态
+      if (article.favorited) {
+        await unfavoriteArticle(article.slug);
+        article.favorited = false;
+        article.favoritesCount -= 1;
+      } else {
+        await favoriteArticle(article.slug);
+        article.favorited = true;
+        article.favoritesCount += 1;
+      }
+      article.favoriteDisabled = false;
+    },
+  },
 };
 </script>
 

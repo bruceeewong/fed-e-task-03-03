@@ -17,3 +17,17 @@ export const getFeedArticles = (params) => {
     params: params,
   });
 };
+
+export const favoriteArticle = (slug) => {
+  return request({
+    url: `/api/articles/${slug}/favorite`,
+    method: "POST",
+  });
+};
+
+export const unfavoriteArticle = (slug) => {
+  return request({
+    url: `/api/articles/${slug}/favorite`,
+    method: "DELETE",
+  });
+};
