@@ -87,7 +87,9 @@
               >
                 <div class="info">
                   <a href="" class="author"> {{ article.author.username }}</a>
-                  <span class="date">{{ article.createdAt }}</span>
+                  <span class="date">{{
+                    article.createdAt | date("MMM DD,YYYY")
+                  }}</span>
                 </div>
               </nuxt-link>
               <button

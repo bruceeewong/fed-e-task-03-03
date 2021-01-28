@@ -527,3 +527,41 @@ module.exports = {
 ```
 
 重启服务，即可享受统一的token设置（如果有的话）
+
+## 日期格式化
+
+> 使用 [dayjs](https://day.js.org/): Moment.js 的 2kB 轻量化方案，拥有同样强大的 API
+
+对日期时间做特定格式，做成过滤器 filter。在nuxt中需要做成plugin，这里支持自定义格式化，模板会视图的值作为第一项参数传入，预留第二项参数来指定自定义格式。
+
+```js
+import Vue from "vue";
+import dayjs from "dayjs";
+
+// {{ 表达式 | 过滤器 }}
+Vue.filter("date", (value, format = "YYYY-MM-DD HH:mm:ss") => {
+  return dayjs(value).format(format);
+});
+```
+
+在config中导入插件
+
+```js
+module.exports = {
+  // ...
+  plugins: ["~/plugins/request.js", "~/plugins/dayjs.js"],
+};
+```
+
+模板中使用（默认情况）
+
+```vue
+<span class="date">{{article.createdAt | date}}</span>
+```
+
+模板中使用（自定义日期格式）
+
+```vue
+<span class="date">{{article.createdAt | date("MMM DD,YYYY")}}</span>
+```
+
