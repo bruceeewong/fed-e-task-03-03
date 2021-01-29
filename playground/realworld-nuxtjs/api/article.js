@@ -1,11 +1,19 @@
 import { request } from "@/plugins/request";
 
-// 获取公共文章
+// 获取公共文章列表
 export const getArticles = (params) => {
   return request({
     url: "/api/articles",
     method: "GET",
     params: params,
+  });
+};
+
+// 获取文章详情
+export const getArticle = (slug) => {
+  return request({
+    url: `/api/articles/${slug}`,
+    method: "GET",
   });
 };
 

@@ -629,5 +629,22 @@ async onFavorite(article) {
 
 则完成点赞的功能。
 
+## 文章详情页
 
+此模块很需要SEO，所以获取文章详情的操作要放到服务端做，即在 `asyncData` 中完成。
+
+### Markdown 格式支持
+
+> 第三方包：[markdown-it](https://github.com/markdown-it/markdown-it)
+
+直接使用markdown-it的API将文本内容解析成`html`文本，然后在模板使用 `v-html` 指令渲染文本。
+
+```js
+import MarkdownIt from "markdown-it";
+
+const md = new MarkdownIt();
+article.body = md.render(article.body);
+```
+
+> 问题：文本需做转义处理，如何避免XSS攻击？
 

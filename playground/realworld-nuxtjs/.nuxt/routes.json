@@ -6,46 +6,38 @@
       {
         "path": "",
         "name": "home",
-        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/home",
-        "_name": "_44eb1367"
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/home"
       },
       {
         "path": "/login",
         "name": "login",
-        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/login",
-        "_name": "_58afa1e1"
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/login"
       },
       {
         "path": "/register",
         "name": "register",
-        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/register",
-        "_name": "_46586daa"
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/register"
       },
       {
         "path": "/profile/:username",
         "name": "profile",
-        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/profile",
-        "_name": "_771503be"
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/profile"
       },
       {
         "path": "/settings",
         "name": "settings",
-        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/settings",
-        "_name": "_5b7a56ab"
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/settings"
       },
       {
         "path": "/editor",
         "name": "editor",
-        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/editor",
-        "_name": "_9e8e8416"
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/editor"
       },
       {
         "path": "/article/:slug",
         "name": "article",
-        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/article",
-        "_name": "_a9807d24"
+        "component": "/home/bruski/workspace/lagou-camp/fed-e-task-03-03/playground/realworld-nuxtjs/pages/article"
       }
-    ],
-    "_name": "_86f0d09c"
+    ]
   }
 ]
