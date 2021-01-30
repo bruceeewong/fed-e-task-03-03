@@ -648,3 +648,33 @@ article.body = md.render(article.body);
 
 > 问题：文本需做转义处理，如何避免XSS攻击？
 
+### SEO设置
+
+> Nuxt的SEO设置文档：https://nuxtjs.org/docs/2.x/features/meta-tags-seo
+
+ 通过nuxt在vue模板中设置`head`方法，即可修改当前文章页的head里的`title`与`meta`标签，将文章标题设为`title`，文章内容设为`meta description`即可。
+
+```js
+export default {
+  name: "ArticleMeta",
+  // ...
+  // SEO
+  head() {
+    return {
+      title: `${this.article.title} - RealWorld`,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.article.description,
+        },
+      ],
+    };
+  },
+};
+```
+
+
+
+
+
