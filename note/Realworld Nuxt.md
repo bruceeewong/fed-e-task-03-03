@@ -682,7 +682,22 @@ export default {
 
 ## 打包 Nuxt.js 应用
 
+> 官方文档：https://nuxtjs.org/docs/2.x/get-started/commands
 
+官网提到有两种打包模式：`Server Deployment` & `Static Deployment (Pre-rendered)`，这里的程序需要服务端渲染，所以只考虑 `Server Deployment`。
 
+对应的`package.json`设置如下：
 
+```json
+"scripts": {
+  "dev": "nuxt",
+  "build": "nuxt build",
+  "start": "nuxt start",
+  "generate": "nuxt generate"
+}
+```
+
+其中`generate`是用于静态模式打包的，在这里可以忽略。执行`npm run build`，nuxt脚手架会自动将应用打包
+
+到`.nuxt`目录下的`dist`路径; 再接着运行`npm run start`即可以生产模式启动服务。
 
