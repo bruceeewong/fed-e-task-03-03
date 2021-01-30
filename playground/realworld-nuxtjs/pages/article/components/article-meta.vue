@@ -1,0 +1,64 @@
+<template>
+  <div class="article-meta">
+    <a
+      :to="{
+        name: 'profile',
+        params: {
+          username: article.author.username,
+        },
+      }"
+      ><img :src="article.author.image"
+    /></a>
+    <div class="info">
+      <a
+        :to="{
+          name: 'profile',
+          params: {
+            username: article.author.username,
+          },
+        }"
+        class="author"
+        >{{ article.author.username }}</a
+      >
+      <span class="date">{{
+        article.author.created | date("MMM DD, YYYY")
+      }}</span>
+    </div>
+
+    <button
+      class="btn btn-sm btn-outline-secondary"
+      :class="{
+        active: article.author.following,
+      }"
+    >
+      <i class="ion-plus-round"></i>
+      &nbsp; Follow Eric Simons <span class="counter">(10)</span>
+    </button>
+    &nbsp;
+    <button
+      class="btn btn-sm btn-outline-primary"
+      :class="{
+        active: article.author.favorited,
+      }"
+    >
+      <i class="ion-heart"></i>
+      &nbsp; Favorite Post
+      <span class="counter">({{ article.favoritesCount }})</span>
+    </button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ArticleMeta",
+  props: {
+    article: {
+      type: Object,
+      required: true,
+    },
+  },
+};
+</script>
+
+<style>
+</style>
