@@ -1,6 +1,6 @@
 <template>
   <div class="article-meta">
-    <a
+    <nuxt-link
       :to="{
         name: 'profile',
         params: {
@@ -8,9 +8,9 @@
         },
       }"
       ><img :src="article.author.image"
-    /></a>
+    /></nuxt-link>
     <div class="info">
-      <a
+      <nuxt-link
         :to="{
           name: 'profile',
           params: {
@@ -18,8 +18,8 @@
           },
         }"
         class="author"
-        >{{ article.author.username }}</a
-      >
+        >{{ article.author.username }}
+      </nuxt-link>
       <span class="date">{{
         article.author.created | date("MMM DD, YYYY")
       }}</span>
@@ -73,5 +73,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
