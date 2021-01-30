@@ -2,17 +2,18 @@
   <div class="article-meta">
     <nuxt-link
       :to="{
-        name: 'profile',
+        path: 'profile',
         params: {
           username: article.author.username,
         },
       }"
-      ><img :src="article.author.image"
-    /></nuxt-link>
+      ><img :src="article.author.image" />
+    </nuxt-link>
+
     <div class="info">
       <nuxt-link
         :to="{
-          name: 'profile',
+          path: 'profile',
           params: {
             username: article.author.username,
           },
