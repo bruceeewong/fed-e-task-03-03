@@ -77,31 +77,23 @@
               >
                 <img :src="article.author.image" />
               </nuxt-link>
-              <nuxt-link
-                :to="{
-                  name: 'profile',
-                  params: {
-                    username: article.author.username,
-                  },
-                }"
-              >
-                <div class="info">
-                  <nuxt-link
-                    :to="{
-                      name: 'profile',
-                      params: {
-                        username: article.author.username,
-                      },
-                    }"
-                    class="author"
-                  >
-                    {{ article.author.username }}</nuxt-link
-                  >
-                  <span class="date">{{
-                    article.createdAt | date("MMM DD,YYYY")
-                  }}</span>
-                </div>
-              </nuxt-link>
+
+              <div class="info">
+                <nuxt-link
+                  class="author"
+                  :to="{
+                    name: 'profile',
+                    params: {
+                      username: article.author.username,
+                    },
+                  }"
+                  >{{ article.author.username }}
+                </nuxt-link>
+                <span class="date">{{
+                  article.createdAt | date("MMM DD,YYYY")
+                }}</span>
+              </div>
+
               <button
                 class="btn btn-outline-primary btn-sm pull-xs-right"
                 :class="{ active: article.favorited }"
@@ -251,5 +243,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
