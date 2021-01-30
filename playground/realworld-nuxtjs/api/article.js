@@ -17,6 +17,14 @@ export const getArticle = (slug) => {
   });
 };
 
+// 获取文章的评论
+export const getArticleComments = (slug) => {
+  return request({
+    url: `/api/articles/${slug}/comments`,
+    method: "GET",
+  });
+};
+
 // 获取用户关注的文章
 export const getFeedArticles = (params) => {
   return request({

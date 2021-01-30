@@ -86,7 +86,17 @@
                 }"
               >
                 <div class="info">
-                  <a href="" class="author"> {{ article.author.username }}</a>
+                  <nuxt-link
+                    :to="{
+                      name: 'profile',
+                      params: {
+                        username: article.author.username,
+                      },
+                    }"
+                    class="author"
+                  >
+                    {{ article.author.username }}</nuxt-link
+                  >
                   <span class="date">{{
                     article.createdAt | date("MMM DD,YYYY")
                   }}</span>
