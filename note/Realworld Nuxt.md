@@ -701,3 +701,20 @@ export default {
 
 到`.nuxt`目录下的`dist`路径; 再接着运行`npm run start`即可以生产模式启动服务。
 
+## 踩过的坑
+
+### nuxt-link嵌套不正确，导致build之后页面报错 
+
+写完页面后打包Build,看到报错
+
+```
+Failed to execute 'appendChild' on 'Node': This node type does not support this method. 
+```
+
+问题分析：
+
+提示有匹配不上的`VNode`，可能是html模板嵌套不正确导致的。debug了半天，发现`nuxt-link`里面又嵌套了一层`<a>`，导致渲染报错。。。我猜因为`nuxt-link`渲染成html后nuxt这个提示也太难找问题了。
+
+解决办法：
+
+移除nuxt-link内部的a标签，调整结构/换成别的元素。
