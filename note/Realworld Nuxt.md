@@ -701,6 +701,114 @@ export default {
 
 到`.nuxt`目录下的`dist`路径; 再接着运行`npm run start`即可以生产模式启动服务。
 
+## Nuxt部署
+
+> https://nuxtjs.org/docs/2.x/deployment/deployment-pm2
+
+服务器全局安装`pm2`
+
+### 手动部署
+
+- 本地构建
+- 帆布
+
+### 自动化部署
+
+> 原理：源代码 -> Git远程仓库 -> CI/CD服务（拉取最新代码，编译构建&打包release&发布release）->发布到Web服务器
+
+CI/CD服务
+
+- Jenkins
+- Github Actions
+- Gitlab CI
+- Travis CI
+- Circle CI
+
+#### Github Actions设置流程
+
+1. 在 github 个人设置页 `Settings/Developer settings`下，新建`Personal access tokens`，权限勾选`repo`仓库所有权限。（Token只展示一次，注意保存，不要用git来管理以免泄漏）
+2. 在项目的`settings/secrets`中添加变量，名称随意，如(Token)， 值为刚才的`Personal access tokens`的值。
+3. 在项目根目录下创建`.github/workflow`目录，创建github actions所需的CI/CD脚本，这里创建yml格式，主流程为：
+   1. 指定监听github提交事件，如只监听tag为 v* 的分支推送（发版）才构建。
+   2. 定制任务(jobs)，指定运行环境，指定执行步骤(steps)、
+      1. 下载源码（使用`actions/checkout@master`）
+      2. 打包构建（使用`actions/setup-node@master`）执行`npm install`,  `npm run build`， `tar`打压缩包。
+      3. 发布Release，使用`actions/create-release@master`
+      4. 上传构建结果到 Release，使用`actions/upload-release-asset@master`
+      5. 部署到服务器
+
+> 完整github actions脚本
+
+```
+name: Publish And Deploy Demo
+on:
+  push:
+    # 只有在发版时才触发部署
+    tags:
+      - "v*"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 下载源码
+      - name: Checkout
+        uses: actions/checkout@master
+
+      # 打包构建
+      - name: Build
+        uses: actions/setup-node@master
+      - run: npm install
+      - run: npm run build
+      - run: tar -zcvf release.tgz .nuxt static nuxt.config.js package.json package-lock.json pm2.config.json
+
+      # 发布 Release
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} # 访问仓库下的TOKEN变量
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      # 上传构建结果到 Release
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release.tgz
+          asset_name: release.tgz
+          asset_content_type: application/x-tgz
+
+      # 部署到服务器
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /var/services/realworld-nuxtjs
+            wget https://github.com/lipengzhou/realworld-nuxtjs/releases/latest/download/release.tgz -O release.tgz
+            tar zxvf release.tgz
+            npm install --production
+            pm2 reload pm2.config.json
+
+```
+
+#### 触发自动构建部署
+
+普通的提交不会触发构建，只有`git tag vx.x.x`打版本后，提交才会触发。
+
+在github项目的actions tab里可以查看构建任务，并且在release记录里也可以查阅每个版本的构建产物。
+
 ## 踩过的坑
 
 ### nuxt-link嵌套不正确，导致build之后页面报错 
@@ -718,3 +826,13 @@ Failed to execute 'appendChild' on 'Node': This node type does not support this 
 解决办法：
 
 移除nuxt-link内部的a标签，调整结构/换成别的元素。
+
+### 腾讯云服务器无法下载nvm脚本
+
+又是蛋疼的网络隔离问题，这里选择在能够fan qiang的本地机器下载所需的两个文件
+
+- nvm安装脚本： https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh (随便放置，用 `bash install.sh` 来执行此脚本)
+- nvm核心脚本：https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/nvm.sh
+
+先执行安装脚本，再把nvm核心脚本放置到 `~/.nvm/` 路径下，命名为 `nvm.sh`; 然后按照安装脚本的提示，写入环境变量，即可生效。（所幸npm资源可以下载，不然心态爆炸...
+
